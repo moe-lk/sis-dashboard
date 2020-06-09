@@ -1,0 +1,2248 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 39,
+  "iteration": 1591672691959,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 40,
+      "panels": [],
+      "title": "Bulk Upload Progress",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "columns": [],
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 42,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- select count(*) , created_at as time from uploads where $__timeFilter(created_at);\n\nselect * from uploads up inner join institution_classes ic on up.institution_class_id = ic.id\ninner join institutions i on ic.institution_id = i.id \ninner join institution_class_grades icg on ic.id = icg.institution_class_id\ninner join education_grades eg on eg.id = icg.education_grade_id\n-- where  i.id = $code\n-- and eg.code = '$grade'\n-- and $__timeFilter(created_at);\n-- select * from uploads  limit 10\n\n-- select count(*) from institution_students ist\n-- inner join institutions i on ist.institution_id = i.id\n-- inner join security_users stu on ist.student_id = stu.id\n-- inner join education_grades eg on eg.id = ist.education_grade_id\n-- where  i.id = $code\n-- and eg.code = '$grade'\n-- and stu.gender_id = 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "UPLOADS",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#ab47bc",
+        "#d44a3a"
+      ],
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "id": 43,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "count(*)",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select count(*) , created_at as time from uploads where   is_processed != 0 and $__timeFilter(updated_at);",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "PROCESSED",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#ab47bc",
+        "#d44a3a"
+      ],
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 44,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "count(*)",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select count(*) , created_at as time from uploads where   is_processed in (2) and $__timeFilter(updated_at);",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "ERRORS",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#ab47bc",
+        "#d44a3a"
+      ],
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 45,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "count(*)",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select count(*) , created_at as time from uploads up where   up.is_processed = 2 and up.update = 2 and $__timeFilter(up.updated_at);",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "ERRORS - UPDATE",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#ab47bc",
+        "#d44a3a"
+      ],
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 4
+      },
+      "id": 46,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "count(*)",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select count(*) , created_at as time from uploads up where up.update in  (1,3) and $__timeFilter(up.updated_at);",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "SUCCESS - UPDATE",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#ab47bc",
+        "#d44a3a"
+      ],
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 4
+      },
+      "id": 47,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "count(*)",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select count(*) , created_at as time from uploads up where up.insert = 3 and $__timeFilter(up.updated_at);",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "PARTIAL SUCCESS-INSERT",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#ab47bc",
+        "#d44a3a"
+      ],
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 4
+      },
+      "id": 48,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "count(*)",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select count(*) , created_at as time from uploads up where up.update = 1 and $__timeFilter(up.updated_at);",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "SUCCESS-INSERT",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#ab47bc",
+        "#d44a3a"
+      ],
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 4
+      },
+      "id": 49,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "count(*)",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select count(*) , created_at as time from uploads up where up.is_email_sent in (1,2) and $__timeFilter(up.updated_at);",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "EMAIL SENT",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "columns": [],
+      "datasource": "Prod-Slave",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 22,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": null,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select \r\n  eg.name as `Grade` ,\r\n  stu.openemis_no as `Student ID`,  \r\n  stu.first_name as `Full Name`, \r\n  GROUP_CONCAT(DISTINCT edus.name) as `Subjects`,\r\n  IFNULL(LEFT(RIGHT(count(DISTINCT edus.id),8),4),'NA') as `Number of Subjects`,\r\n  DATE_FORMAT(stu.date_of_birth ,'%W, %M %e, %Y ' ) as `Date of Birth` , \r\n  g.name as `Gender`, \r\n  IFNULL(nati.name, 'NA') as `Nationality`,\r\n  IFNULL(idt.national_code, 'NA') as `Identity Type`,\r\n  IFNULL(LEFT(RIGHT(stu.identity_number,8),4),'NA') as `Identity Number`,\r\n  IFNULL (stu.identity_number,'na') as `Testing`,\r\n  ic.name as `Class` ,  \r\n  IFNULL(special_need_types.name, 'NA') as `Special Need Type`,\r\n  IFNULL(special_need_difficulties.name, 'NA') as `Special Need`,\r\n  IFNULL(stu.address, 'NA') as `Address`,\r\n  IFNULL(acp.name, 'NA') as `BMI Academic Period`,\r\n  DATE_FORMAT(bmit.date,'%W, %M %e, %Y ') as `BMI Date`,\r\n  IFNULL(bmit.height, 'NA') as `Height`,\r\n  IFNULL(bmit.weight, 'NA') as `Weight`,\r\n  IFNULL(acps.name, 'NA') as `Academic Periods`,\r\n  DATE_FORMAT(ist.start_date,'%W, %M %e, %Y ') as `Start Date`,\r\n  IFNULL(bro.name, 'NA') as `Birth Registrar Office`,\r\n  IFNULL(ds.name, 'NA') as `DS Office`,\r\n  stu.address_area_id,\r\n  IFNULL(sufu.first_name, 'NA') as `Father's Name`, \r\n  IFNULL(natif.name, 'NA') as `Father's Nationality`,\r\n  DATE_FORMAT(sufu.date_of_birth,'%W, %M %e, %Y ') as `Father's Date Of Birth`,\r\n  IFNULL(sufu.address , 'N/A') as `Father's Address`,\r\n  IFNULL(idtf.national_code, 'NA') as `Father's Identity Type`,\r\n  IFNULL(sufu.identity_number, 'NA') as `Father's Identity Number`,\r\n  IFNULL(sumu.first_name, 'N/A') as `Mothers's Name`,\r\n  IFNULL(natim.name, 'NA') as `Mothers's Nationality`, \r\n  DATE_FORMAT(sumu.date_of_birth,'%W, %M %e, %Y ') as `Mothers's Date Of Birth`,\r\n  IFNULL(sumu.address , 'N/A') as `Mothers's Address`,\r\n  IFNULL(idtm.national_code, 'NA') as `Mothers's Identity Type`,\r\n  IFNULL(sumu.identity_number, 'NA') as `Mother's Identity Number`,\r\n  IFNULL(sugu.first_name , 'N/A') as `Guardian's Name`,\r\n  IFNULL(natig.name, 'NA') as `Guardian's Nationality`,\r\n  DATE_FORMAT(sugu.date_of_birth,'%W, %M %e, %Y ') as `Guardian's Date Of Birth`,\r\n  IFNULL(sugu.address , 'N/A') as `Guardian's Address`,\r\n  IFNULL(idtg.national_code, 'NA') as `Guardian's Identity Type`,\r\n  IFNULL(sugu.identity_number, 'NA') as `Guardian's Identity Number`,\r\n  IFNULL(ubm.body_mass_index , 'N/A') as `BMI`\r\n  from (SELECT DISTINCT it.institution_id,it.student_id,it.education_grade_id,it.academic_period_id from institution_students it) ist\r\nleft join institutions i on ist.institution_id = i.id\r\nleft join education_grades  eg on eg.id = ist.education_grade_id\r\nleft join institution_class_students ics on ist.student_id = ics.student_id\r\nleft join institution_classes ic on   ic.id = ics.institution_class_id \r\nleft join security_users stu on ist.student_id = stu.id\r\nleft join student_guardians sgf on sgf.student_id = stu.id and sgf.guardian_relation_id = 1\r\nleft join security_users sufu on sgf.guardian_id = sufu.id\r\nleft join student_guardians sgm on sgm.student_id = stu.id  and sgm.guardian_relation_id = 2\r\nleft join security_users sumu on sgm.guardian_id = sumu.id\r\nleft join student_guardians sg on sg.student_id = stu.id   and sg.guardian_relation_id = 3\r\nleft join security_users sugu on sg.guardian_id = sugu.id\r\nleft join user_body_masses as ubm on ubm.security_user_id  = ist.student_id and \tubm.academic_period_id = ist.academic_period_id\r\nleft join genders g on stu.gender_id = g.id\r\nleft join area_administratives bro on stu.birthplace_area_id = bro.id \r\nleft join area_administratives ds on stu.address_area_id = ds.id  \r\nleft join nationalities nati on stu.nationality_id = nati.id \r\nleft join identity_types idt on stu.nationality_id = idt.id\r\nLeft join user_special_needs on ist.id = user_special_needs.security_user_id\r\nleft join special_need_types on special_need_types.id = user_special_needs.special_need_type_id\r\nleft join special_need_difficulties on special_need_difficulties.id = user_special_needs.special_need_difficulty_id\r\nleft join user_body_masses bmit on stu.id = bmit.security_user_id\r\nleft join academic_periods acp on acp.id = bmit.academic_period_id\r\nleft join academic_periods acps on acps.id = ist.academic_period_id\r\nleft join institution_subject_students iss on stu.id = iss.student_id\r\nleft join education_subjects edus on edus.id = iss.education_subject_id\r\nleft join nationalities natif on sufu.nationality_id = natif.id and sgf.guardian_relation_id = 1\r\nleft join nationalities natim on sumu.nationality_id = natif.id and sgm.guardian_relation_id = 2\r\nleft join nationalities natig on sugu.nationality_id = natif.id and sg.guardian_relation_id = 3\r\nleft join identity_types idtf on sufu.nationality_id = idtf.id and sgf.guardian_relation_id = 1\r\nleft join identity_types idtm on sumu.nationality_id = idtm.id and sgf.guardian_relation_id = 2\r\nleft join identity_types idtg on sugu.nationality_id = idtg.id and sgf.guardian_relation_id = 3\r\nwhere i.id = $code\r\ngroup by stu.openemis_no\r\n\r\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Student's List",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 38,
+      "title": "Institution Details",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "datasource": "Prod-Slave",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 10,
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT  i.name as `School Name` , i.code as `Census Code` ,  i.address  as `Address`, a.name as `Zone` from institutions i\ninner join areas a on a.id = i.area_id\nwhere i.id =  $code\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Panel Title",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Count",
+        "threshold": ""
+      },
+      "datasource": "Prod-Slave",
+      "fontSize": "120%",
+      "format": "none",
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 19
+      },
+      "id": 14,
+      "interval": null,
+      "legend": {
+        "percentage": false,
+        "show": true,
+        "sort": "total",
+        "sortDesc": true,
+        "values": true
+      },
+      "legendType": "Right side",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "pie",
+      "pluginVersion": "6.1.0",
+      "strokeWidth": 1,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "id",
+          "rawQuery": true,
+          "rawSql": "select \n     ug.name as metric ,count(*) as value ,\n    $__time(su.created, '1h')\n    from (SELECT DISTINCT it.institution_id,it.student_id,it.education_grade_id,it.academic_period_id from institution_students it) ist\n inner join institutions as inst on ist.institution_id = inst.id\n inner join security_users as su on su.id = ist.student_id\n inner join areas as ia on inst.area_id = ia.id\n inner join genders as ug on ug.id = su.gender_id\n where inst.id = $code \ngroup by ug.id;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "student_id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "institution_students",
+          "timeColumn": "modified",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Students gender breakdown",
+      "type": "grafana-piechart-panel",
+      "valueName": "total"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 9,
+        "y": 19
+      },
+      "id": 56,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  modified AS \"time\",\n  id\nFROM academic_period_levels\nWHERE\n  $__timeFilter(modified)\nORDER BY modified",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Differently Able Students",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Count",
+        "threshold": ""
+      },
+      "datasource": "Prod-Slave",
+      "fontSize": "120%",
+      "format": "none",
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 17,
+        "y": 19
+      },
+      "id": 28,
+      "interval": null,
+      "legend": {
+        "percentage": false,
+        "show": true,
+        "sort": null,
+        "sortDesc": null,
+        "values": true
+      },
+      "legendType": "Right side",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "pie",
+      "pluginVersion": "6.1.0",
+      "strokeWidth": 1,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "id",
+          "rawQuery": true,
+          "rawSql": "select \n    count(CASE WHEN ubm.body_mass_index <  13 THEN ubm.body_mass_index END) as `Underweight`,\n    count(CASE WHEN ubm.body_mass_index > 13 and ubm.body_mass_index <= 16  THEN ubm.body_mass_index END) as `Normal`  ,\n    count(CASE WHEN ubm.body_mass_index > 16 and ubm.body_mass_index <= 18.25  THEN ubm.body_mass_index END) as `Overweight`,\n    count(CASE WHEN ubm.body_mass_index > 18.25  THEN ubm.body_mass_index END) as `Severely obese`,\n    $__time(ins.created, '1h')\n    from (SELECT DISTINCT it.institution_id,it.student_id,it.education_grade_id,it.academic_period_id from institution_students it) inst\n    inner join institutions as ins on ins.id = inst.institution_id\n    inner join user_body_masses as ubm on ubm.security_user_id  = inst.student_id and \tubm.academic_period_id = inst.academic_period_id\n    where ins.id = $code;\n ",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "student_id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "institution_students",
+          "timeColumn": "modified",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "National level Student's BMI status",
+      "type": "grafana-piechart-panel",
+      "valueName": "total"
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "cacheTimeout": null,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prod-Slave",
+      "fill": 1,
+      "gridPos": {
+        "h": 7,
+        "w": 14,
+        "x": 0,
+        "y": 27
+      },
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pluginVersion": "6.1.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "id",
+          "rawQuery": true,
+          "rawSql": "select \n    (count(CASE WHEN eg.code = 'G1' THEN ist.student_id END)) as `G-1` ,  \n    (count(CASE WHEN eg.code = 'G2' THEN ist.student_id END)) as `G-2` ,\n    (count(CASE WHEN eg.code = 'G3' THEN ist.student_id END)) as `G-3` ,\n    (count(CASE WHEN eg.code = 'G4' THEN ist.student_id END)) as `G-4` ,\n    (count(CASE WHEN eg.code = 'G5' THEN ist.student_id END)) as `G-5` ,\n    (count(CASE WHEN eg.code = 'G6' THEN ist.student_id END)) as `G-6` ,\n    (count(CASE WHEN eg.code = 'G7' THEN ist.student_id END)) as `G-7` ,\n    (count(CASE WHEN eg.code = 'G8' THEN ist.student_id END)) as `G-8` ,\n    (count(CASE WHEN eg.code = 'G9' THEN ist.student_id END)) as `G-9` ,\n    (count(CASE WHEN eg.code = 'G10' THEN ist.student_id END)) as `G-10` ,\n    (count(CASE WHEN eg.code = 'G11' THEN ist.student_id END)) as `G-11` ,\n    (count(CASE WHEN eg.code like \"%12%\" THEN ist.student_id END)) as `G-12` ,\n    (count(CASE WHEN eg.code like \"%13%\" THEN ist.student_id END)) as `G-13` ,\n    $__time(su.created, '1h')\n    from (SELECT DISTINCT it.institution_id,it.student_id,it.education_grade_id,it.academic_period_id from institution_students it) ist\n inner join institutions as inst on ist.institution_id = inst.id\n inner join security_users as su on su.id = ist.student_id\n inner join areas as ia on inst.area_id = ia.id\n inner join education_grades as eg on eg.id = ist.education_grade_id\n where inst.id = \"$code\"  \ngroup by inst.id;\n \n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "student_id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "institution_students",
+          "timeColumn": "modified",
+          "timeColumnType": "datetime",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Number of Students ",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "series",
+        "name": null,
+        "show": true,
+        "values": [
+          "total"
+        ]
+      },
+      "yaxes": [
+        {
+          "decimals": -1,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "none",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#3274D9",
+        "#d44a3a"
+      ],
+      "datasource": "Prod-Slave",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 10,
+        "x": 14,
+        "y": 27
+      },
+      "id": 52,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.1.0",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "count(*)",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select count(*)  \nfrom (SELECT DISTINCT it.institution_id,it.student_id,it.education_grade_id,it.academic_period_id from institution_students it) ist\n-- inner join institutions i on ist.institution_id = i.id\ninner join security_users stu on ist.student_id = stu.id\n-- inner join education_grades eg on eg.id = ist.education_grade_id\nwhere  ist.institution_id = $code",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Total Students",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#3274D9",
+        "#d44a3a"
+      ],
+      "datasource": "Prod-Slave",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 5,
+        "x": 14,
+        "y": 32
+      },
+      "id": 50,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.1.0",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "count(*)",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select count(*) from (SELECT DISTINCT it.institution_id,it.student_id,it.education_grade_id,it.academic_period_id from institution_students it) ist\ninner join institutions i on ist.institution_id = i.id\nleft join security_users stu on ist.student_id = stu.id\nwhere  i.id = $code\nand stu.gender_id = 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Total male Students",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "#e91e63",
+        "#d44a3a"
+      ],
+      "datasource": "Prod-Slave",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 5,
+        "x": 19,
+        "y": 32
+      },
+      "id": 51,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.1.0",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "count(*)",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select count(*) from (SELECT DISTINCT it.institution_id,it.student_id,it.education_grade_id,it.academic_period_id from institution_students it) ist\ninner join institutions i on ist.institution_id = i.id\nleft join security_users stu on ist.student_id = stu.id\nwhere  i.id = $code\nand stu.gender_id = 2",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Total female Students",
+      "type": "singlestat",
+      "valueFontSize": "150%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "circleMaxSize": "3",
+      "circleMinSize": "0.5",
+      "colors": [
+        "#8F3BB8",
+        "rgba(237, 129, 40, 0.89)",
+        "#37872D",
+        "#E0B400",
+        "#F2495C"
+      ],
+      "decimals": 0,
+      "esMetric": "Count",
+      "gridPos": {
+        "h": 11,
+        "w": 14,
+        "x": 0,
+        "y": 34
+      },
+      "hideEmpty": false,
+      "hideZero": false,
+      "id": 24,
+      "initialZoom": "7",
+      "links": [
+        {
+          "type": "dashboard"
+        }
+      ],
+      "locationData": "table",
+      "mapCenter": "custom",
+      "mapCenterLatitude": "8.2° ",
+      "mapCenterLongitude": "82° ",
+      "maxDataPoints": 1,
+      "mouseWheelZoom": false,
+      "repeat": null,
+      "showLegend": true,
+      "stickyLabels": false,
+      "tableQueryOptions": {
+        "geohashField": "geohash",
+        "labelField": "name",
+        "latitudeField": "latitude",
+        "longitudeField": "longitude",
+        "metricField": "NumberOfStudents",
+        "queryType": "coordinates"
+      },
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT openemis.institutions.name,openemis.institutions.code, openemis.institutions.latitude,openemis.institutions.longitude , ia.name as Zone , FORMAT(COUNT(*),0) as NumberOfStudents \n FROM\n      (SELECT count(openemis.institution_students.modified)\n         FROM openemis.institution_students \n       ) institution_students  \n       inner join openemis.institutions \n       inner join openemis.institution_students \n     on openemis.institution_students.institution_id = openemis.institutions.id \n     inner join openemis.areas as ia on openemis.institutions.area_id = ia.id\n     inner join openemis.areas as pa on pa.id = ia.parent_id\n      where institutions.latitude > 0 and openemis.institutions.id  = $code\n     GROUP BY openemis.institution_students.institution_id\n     ",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "40,120,240,400",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Students among Schools All Island",
+      "type": "grafana-worldmap-panel",
+      "unitPlural": "Students",
+      "unitSingle": "",
+      "unitSingular": "Student",
+      "valueName": "current"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 14,
+        "y": 35
+      },
+      "id": 54,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Count of Students by Subjects",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "columns": [],
+      "datasource": "Prod-Slave",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 14,
+        "x": 0,
+        "y": 45
+      },
+      "id": 8,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "\nselect eg.name as `Grade` , ic.name as `Class` , ct.first_name as `Class Teacher`,  format(count(*),0)   as `No of Students`  \nfrom (SELECT DISTINCT it.institution_id,it.student_id,it.education_grade_id,it.academic_period_id from institution_students it) ist\ninner join institutions i on ist.institution_id = i.id\ninner join security_users stu on ist.student_id = stu.id\ninner join education_grades eg on eg.id = ist.education_grade_id\ninner join institution_student_admission isa on isa.student_id = ist.student_id\ninner join institution_classes as ic on ic.id = isa.institution_class_id\nleft join security_users ct on ct.id = ic.staff_id\nwhere  i.id = $code\ngroup by ic.name",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "academic_period_levels",
+          "timeColumn": "modified",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Student Count List by Classes",
+      "transform": "table",
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "text": "G1",
+          "value": "G1"
+        },
+        "datasource": "Prod-Slave",
+        "definition": "select code from education_grades",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Grade",
+        "multi": false,
+        "name": "grade",
+        "options": [
+          {
+            "selected": false,
+            "text": "G1",
+            "value": "G1"
+          },
+          {
+            "selected": false,
+            "text": "G2",
+            "value": "G2"
+          },
+          {
+            "selected": false,
+            "text": "G3",
+            "value": "G3"
+          },
+          {
+            "selected": false,
+            "text": "G4",
+            "value": "G4"
+          },
+          {
+            "selected": false,
+            "text": "G5",
+            "value": "G5"
+          },
+          {
+            "selected": true,
+            "text": "G6",
+            "value": "G6"
+          },
+          {
+            "selected": false,
+            "text": "G7",
+            "value": "G7"
+          },
+          {
+            "selected": false,
+            "text": "G8",
+            "value": "G8"
+          },
+          {
+            "selected": false,
+            "text": "G9",
+            "value": "G9"
+          },
+          {
+            "selected": false,
+            "text": "G10",
+            "value": "G10"
+          },
+          {
+            "selected": false,
+            "text": "G11",
+            "value": "G11"
+          },
+          {
+            "selected": false,
+            "text": "12ARTS",
+            "value": "12ARTS"
+          },
+          {
+            "selected": false,
+            "text": "13ARTS",
+            "value": "13ARTS"
+          },
+          {
+            "selected": false,
+            "text": "12MATHS",
+            "value": "12MATHS"
+          },
+          {
+            "selected": false,
+            "text": "13MATHS",
+            "value": "13MATHS"
+          },
+          {
+            "selected": false,
+            "text": "12BIO",
+            "value": "12BIO"
+          },
+          {
+            "selected": false,
+            "text": "13BIO",
+            "value": "13BIO"
+          },
+          {
+            "selected": false,
+            "text": "13Y-1",
+            "value": "13Y-1"
+          },
+          {
+            "selected": false,
+            "text": "SPEU",
+            "value": "SPEU"
+          },
+          {
+            "selected": false,
+            "text": "12TEC",
+            "value": "12TEC"
+          },
+          {
+            "selected": false,
+            "text": "13TEC",
+            "value": "13TEC"
+          },
+          {
+            "selected": false,
+            "text": "12COM",
+            "value": "12COM"
+          },
+          {
+            "selected": false,
+            "text": "13COM",
+            "value": "13COM"
+          },
+          {
+            "selected": false,
+            "text": "G11(2)",
+            "value": "G11(2)"
+          },
+          {
+            "selected": false,
+            "text": "G13Arts(2)",
+            "value": "G13Arts(2)"
+          },
+          {
+            "selected": false,
+            "text": "G13Maths(2)",
+            "value": "G13Maths(2)"
+          },
+          {
+            "selected": false,
+            "text": "G11(POOL)",
+            "value": "G11(POOL)"
+          },
+          {
+            "selected": false,
+            "text": "G-SLAP",
+            "value": "G-SLAP"
+          },
+          {
+            "selected": false,
+            "text": "G13(POOL)",
+            "value": "G13(POOL)"
+          },
+          {
+            "selected": false,
+            "text": "G13M(POOL)",
+            "value": "G13M(POOL)"
+          },
+          {
+            "selected": false,
+            "text": "G13B(POOL)",
+            "value": "G13B(POOL)"
+          },
+          {
+            "selected": false,
+            "text": "G13T(POOL)",
+            "value": "G13T(POOL)"
+          },
+          {
+            "selected": false,
+            "text": "G13C(POOL)",
+            "value": "G13C(POOL)"
+          },
+          {
+            "selected": false,
+            "text": "G13COM(2)",
+            "value": "G13COM(2)"
+          },
+          {
+            "selected": false,
+            "text": "G13BIO(2)",
+            "value": "G13BIO(2)"
+          },
+          {
+            "selected": false,
+            "text": "G13TEC(2)",
+            "value": "G13TEC(2)"
+          }
+        ],
+        "query": "select code from education_grades",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "hide": 2,
+        "label": "school",
+        "name": "code",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "isNone": true,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": "Prod-Slave",
+        "definition": "select id from institutions where code = \"$code\"",
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "insId",
+        "options": [],
+        "query": "select id from institutions where code = \"$code\"",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "Prod-Slave",
+        "definition": "select name from institution_classes where institution_id = $insId",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Classes",
+        "multi": true,
+        "name": "class",
+        "options": [],
+        "query": "select name from institution_classes where institution_id = $insId",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Principal Dashboard",
+  "uid": "Ao8N9dRZSS",
+  "version": 113
+}
