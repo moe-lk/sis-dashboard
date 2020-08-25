@@ -39,7 +39,7 @@ class ImportDashboard extends Command
 
     public function handle()
     {
-        $arg1 = $this->argument('arg1');
+        $filePath = $this->argument('filePath');
         $orgId = $this->argument('orgId');
         try {
             $header = [
@@ -53,7 +53,7 @@ class ImportDashboard extends Command
             ]);
             $response = $client->post('/api/dashboards/db', [
                 'json' => [
-                    "dashboard" => $arg1
+                    "dashboard" => $filePath
                     ,
                     "folderId" => $orgId,
                     "overwrite" => false
